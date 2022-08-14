@@ -10,6 +10,17 @@ galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
 
 galleryContainer.addEventListener('click', onGalleryClick);
 
+const instance = basicLightbox.create(
+  `<img src="" width="800" height="600" class="modal-img">`, {
+    onShow: instance => {
+      // console.log("yes");
+      window.addEventListener("keydown", onEscDown);
+    },
+    onClose: instance => {
+      // console.log("no");
+      window.removeEventListener("keydown", onEscDown);
+    },
+});
 
 function createGalleryItemsMarkup(items) {
   return items.map(({description, original, preview}) => {
@@ -36,19 +47,16 @@ function onGalleryClick(e) {
     return;
   }  
   const currentImage = e.target;
-  const currentItem = currentImage.closest(".gallery__item");
   const currentImageSource = currentImage.dataset.source;
-  
-  const instance = basicLightbox.create(`
-      <img src="${currentImageSource}" width="800" height="600">
-  `)
-
-  instance.show()
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") {
-      return;
-    }
-    instance.close();
-  });
+  // const currentItem = currentImage.closest(".gallery__item");
+  instance.element().querySelector('img').src = currentImageSource;
+  instance.show(); 
 }
+
+function onEscDown (e) {
+  if (e.key !== "Escape") {
+    return;
+  }
+  instance.close();
+  // console.log(e.key);
+};
