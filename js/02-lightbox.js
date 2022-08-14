@@ -8,12 +8,16 @@ const galleryItemsMarkup = createGalleryItemsMarkup(galleryItems);
 
 galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
 
-let gallery = new SimpleLightbox('.gallery a');
-
-gallery.on('show.simplelightbox', function () { });
-
-gallery.options.captionsData = 'alt';
-gallery.options.captionDelay = 250;
+let gallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+// gallery.options.captionsData = 'alt'; 
+// gallery.options.captionDelay = 250;
+// вместо этого добавила вторым аргументом в new SimpleLightbox 
+// объект со свойствами 
+// {captionsData: 'alt',
+//  captionDelay: 250,}
 
 function createGalleryItemsMarkup(items) {
   return items.map(({description, original, preview}) => {
